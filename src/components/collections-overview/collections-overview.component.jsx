@@ -8,7 +8,6 @@ import {  selectCollectionForPreview } from '../../redux/shop/shop.selectors';
 
 
 const CollectionOverview = ({collections}) => {
-    console.log("Its work", collections);
     
     return (
         <div className="collections-overview">

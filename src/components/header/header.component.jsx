@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './header.styles.scss';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { auth } from '../../firebase/firebase.utiles';
 import {connect} from 'react-redux';
-import CartIcon from '../cart-icon/cart-icon.component';
+import CartIcon from '../cart-icon/cart-icon.component'; 
 
 // Memoized
 import {createStructuredSelector} from 'reselect';
@@ -12,29 +10,33 @@ import {selectCartHidden} from '../../redux/cart/cart.selectors';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './header.styles';
+
 
 const Header = ({currentUser, hidden}) => {    
     return (
-        <div className="header">
-            <Link className="logo-container" to='/'>
+        <HeaderContainer>
+            <LogoContainer to='/'>
                 <Logo className="logo" />
-            </Link>
-            <div className="options">
-                <Link className="option" to="/shop">SHOP</Link>
-                <Link className="option" to="/contacts">CONTACT</Link>
+            </LogoContainer>
+            <OptionsContainer>
+                <OptionLink to="/shop">SHOP</OptionLink>
+                <OptionLink to="/contacts">CONTACT</OptionLink>
                 {
                 currentUser? 
-                <div className="option" onClick={() => auth.signOut()}>SIGN OUT</div> 
-                : <Link className="option" to="/signin"> SIGN IN</Link>
+                <OptionDiv onClick={() => auth.signOut()}>SIGN OUT</OptionDiv> 
+                : <OptionLink to="/signin"> SIGN IN</OptionLink>
             }
+
             <CartIcon />
-            </div>
+            </OptionsContainer>
+            
             {
                 hidden?  null: <CartDropdown />
                 
             }
 
-        </div>
+        </HeaderContainer>
     )
 }
 
