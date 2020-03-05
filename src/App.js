@@ -1,5 +1,5 @@
 // React native
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 // React Route
@@ -26,12 +26,13 @@ import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from './redux/user/user.selectors';
 
 
-class App extends Component {
+const App = ({checkUserSession, currentUser}) => {
 
-  unsubscribeFromAuth = null;
-  componentDidMount() {
-    const {checkUserSession} = this.props;
-    checkUserSession()
+  // const unsubscribeFromAuth = null;
+
+  useEffect(() => {
+      checkUserSession()
+  }, [checkUserSession]);
 
     // this.unsubscribeFromAuth = auth.onAuthStateChanged(async authUser => {
     // const userRef = await createUserProfileDocument(authUser)
@@ -49,26 +50,18 @@ class App extends Component {
     //     setCurrentUser(authUser)
     //   }
     // });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  render() { 
     return ( 
       <div>
       <Header />
       <Switch>
          <Route exact path='/' component={HomePage} />
          <Route path='/shop' component={ShopPage} />
-         <Route exact path='/signin' render={() => this.props.currentUser? (<Redirect to='/' />) : <SignInAndSignUp />} />
+         <Route exact path='/signin' render={() => currentUser? (<Redirect to='/' />) : <SignInAndSignUp />} />
          <Route exact path='/checkout' component={CheckOutPage} />
 
       </Switch>
     </div>
      );
-  }
 }
 
 const mapStateToProps = createStructuredSelector({
